@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../core/constants/colors.dart';
-import '../core/constants/size.dart';
+import '../constants/colors.dart';
+import '../constants/size.dart';
 import 'VerificationScreen.dart';
 
 class LoginStepOne extends StatefulWidget {

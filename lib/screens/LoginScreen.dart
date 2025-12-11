@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import '../core/constants/colors.dart';
-import '../core/constants/size.dart';
+
        import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:main_project/constants/colors.dart';
+import 'package:main_project/constants/size.dart';
 import 'dart:convert';
 
-import '../core/constants/colors.dart';
+
 
 import 'LoginStepOne.dart';
 

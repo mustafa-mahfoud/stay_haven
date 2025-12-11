@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../core/constants/colors.dart';
-import '../core/constants/size.dart';
-import '../core/constants/spacing.dart';
+import 'package:main_project/constants/colors.dart';
+import 'package:main_project/constants/size.dart';
+import 'package:main_project/constants/spacing.dart';
+
 //////tgtgt
 class AdditionalDataScreen extends StatefulWidget {
   const AdditionalDataScreen({Key? key}) : super(key: key);
