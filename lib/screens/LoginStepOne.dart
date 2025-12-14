@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../constants/colors.dart';
-import '../constants/size.dart';
+import '../core/constants/colors.dart';
+import '../core/constants/size.dart';
 import 'VerificationScreen.dart';
 
 class LoginStepOne extends StatefulWidget {
@@ -22,7 +22,13 @@ class _LoginStepOneState extends State<LoginStepOne> {
     if (_formKey.currentState!.validate()) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const VerificationScreen()),
+        MaterialPageRoute(
+          builder: (_) => VerificationScreen(
+            phoneNumber: phoneNumber,
+            username: username,
+            password: password,
+          ),
+        ),
       );
     }
   }
