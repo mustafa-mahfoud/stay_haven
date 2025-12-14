@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) {
-        return mybooking();
+        return MyBooking();
       },
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

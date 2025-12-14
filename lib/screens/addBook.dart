@@ -16,6 +16,17 @@ class _AddbookState extends State<Addbook> {
         backgroundColor: Colors.blue[700],
         title: Text("Add Book",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
       ),
+
+    body: Center(
+      child: Column(
+          
+
+
+
+      ),
+    ),
+
+
     );
   }
 }

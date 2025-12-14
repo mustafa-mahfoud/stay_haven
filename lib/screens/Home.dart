@@ -17,7 +17,7 @@ class Home extends StatefulWidget {
 class _MyWidgetState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    final classInstancee = Provider.of<mybooking>(context);
+    final classInstancee = Provider.of<MyBooking>(context);
     return Scaffold(
         drawer: Drawer(
         child: Column(
@@ -156,7 +156,7 @@ class _MyWidgetState extends State<Home> {
           ],
         ),
       ),
-      appBar: AppBar(
+        appBar: AppBar(
         backgroundColor: Colors.blue[700],
         title: Text(
           "Available bookings",
@@ -178,7 +178,7 @@ class _MyWidgetState extends State<Home> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
+        body: SingleChildScrollView(
         child: Column(
           children: [
             Padding(
@@ -220,7 +220,7 @@ class _MyWidgetState extends State<Home> {
                                     value: 'favorite',
                                     child: TextButton(
                                       onPressed: () {
-                                        classInstancee.addbook(items[0]);
+                                        //classInstancee.addbook(items[0]);
                                       },
                                       child: Text('Add to Favorite'),
                                     ),
@@ -353,6 +353,9 @@ class _MyWidgetState extends State<Home> {
           ],
         ),
       ),
+    
+    
+    
     );
   }
 }
