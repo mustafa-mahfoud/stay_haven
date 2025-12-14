@@ -1,29 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:math';
 
-
-       import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:main_project/constants/colors.dart';
-import 'package:main_project/constants/size.dart';
-import 'dart:convert';
-
-
-
+import '../core/constants/colors.dart';
+import '../core/constants/size.dart';
+import '../config/api_constants.dart'; // استدعاء الرابط من هنا
+import '../core/services/auth_service.dart'; // استدعاء خدمة التوكن
 import 'LoginStepOne.dart';
-
-
-
-
-
-
-
-
-
-
-
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -45,30 +29,69 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
+    // توليد id فريد دون مكتبات خارجية
+    String generateDeviceId() {
+      final random = Random();
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final randomPart = List.generate(
+        16,
+        (_) => random.nextInt(16).toRadixString(16),
+      ).join();
+      return "${randomPart}_$timestamp";
+    }
+
     setState(() => isLoading = true);
 
-    final response = await http.post(
-      Uri.parse("https://reqres.in/api/login"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "email": phoneNumber, // نرسل الرقم في حقل email
-        "password": password,
-      }),
-    );
-
-    setState(() => isLoading = false);
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      final token = data['token'];
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("تم تسجيل الدخول بنجاح ✅\nالتوكن: $token")),
+    try {
+      final deviceId = generateDeviceId();
+      final response = await http.post(
+        Uri.parse("${ApiConstants.baseUrl}/api/auth/login"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "phone_number": phoneNumber,
+          "password": password,
+          "device_id": deviceId,
+          "include_token": true,
+        }),
       );
-      // هنا يمكنك لاحقًا إضافة انتقال لشاشة رئيسية إذا أردت
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("فشل تسجيل الدخول: ${response.body}")),
-      );
+
+      setState(() => isLoading = false);
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final token = data['token'];
+
+        // حفظ التوكن في التخزين الآمن
+        await AuthService.saveToken(token);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("تم تسجيل الدخول بنجاح ✅")),
+        );
+
+        // يمكنك إضافة انتقال لشاشة رئيسية هنا
+        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
+      } else if (response.statusCode == 401) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("كلمة المرور غير صحيحة ❌")),
+        );
+      } else if (response.statusCode == 400 || response.statusCode == 404) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text("رقم الهاتف غير موجود ❌")));
+      } else if (response.statusCode == 500) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text("مشكلة في السيرفر ⚠️")));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("خطأ غير متوقع: ${response.statusCode}")),
+        );
+      }
+    } catch (e) {
+      setState(() => isLoading = false);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("فشل الاتصال بالسيرفر: $e")));
     }
   }
 
@@ -166,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const LoginStepOne (),
+                            builder: (_) => const LoginStepOne(),
                           ),
                         );
                       },

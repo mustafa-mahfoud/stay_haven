@@ -3,7 +3,8 @@ import 'package:main_project/provider/mybooking.dart';
 
 import 'package:main_project/screens/mobile.dart';
 import 'package:provider/provider.dart';
-
+import 'package:main_project/screens/SplashScreen.dart';
+//import 'package:main_project/screens/SplashScreen.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Housely',
         //home: const SplashScreen(), // يبدأ بالشاشة الجديدة
-        home: const Mobile(),
+      home: const SplashScreen(),
       ),
     );
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:main_project/constants/class.dart';
-import 'package:main_project/constants/colors.dart';
+import 'package:main_project/core/constants/class.dart';
+import '../core/constants/colors.dart';
 import 'package:main_project/provider/mybooking.dart';
 import 'package:main_project/screens/Detalis.dart';
 import 'package:date_picker_plus/date_picker_plus.dart';

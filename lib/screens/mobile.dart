@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:main_project/constants/colors.dart';
+import '../core/constants/colors.dart';
 import 'package:main_project/main.dart';
 import 'package:main_project/screens/Home.dart';
 import 'package:main_project/screens/My_bookings.dart';

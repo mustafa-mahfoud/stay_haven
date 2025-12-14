@@ -1,11 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:main_project/constants/colors.dart';
-import 'package:main_project/constants/size.dart';
-import 'package:main_project/constants/spacing.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:math';
 
-//////tgtgt
+import '../core/constants/colors.dart';
+import '../core/constants/size.dart';
+import '../core/constants/spacing.dart';
+import '../config/api_constants.dart';
+import '../core/services/auth_service.dart'; // استدعاء خدمة التوكن
+
 class AdditionalDataScreen extends StatefulWidget {
-  const AdditionalDataScreen({Key? key}) : super(key: key);
+  final String phoneNumber;
+  final String username;
+  final String password;
+  final String otpCode;
+
+  const AdditionalDataScreen({
+    Key? key,
+    required this.phoneNumber,
+    required this.username,
+    required this.password,
+    required this.otpCode,
+  }) : super(key: key);
 
   @override
   State<AdditionalDataScreen> createState() => _AdditionalDataScreenState();
@@ -19,6 +35,7 @@ class _AdditionalDataScreenState extends State<AdditionalDataScreen> {
 
   DateTime? birthDate;
   bool birthDateFocused = false;
+  bool isLoading = false;
 
   @override
   void dispose() {
@@ -27,6 +44,17 @@ class _AdditionalDataScreenState extends State<AdditionalDataScreen> {
     firstNameFocus.dispose();
     lastNameFocus.dispose();
     super.dispose();
+  }
+
+  // توليد id فريد دون مكتبات خارجية
+  String generateDeviceId() {
+    final random = Random();
+    final timestamp = DateTime.now().millisecondsSinceEpoch;
+    final randomPart = List.generate(
+      16,
+      (_) => random.nextInt(16).toRadixString(16),
+    ).join();
+    return "${randomPart}_$timestamp";
   }
 
   Future<void> _pickDate() async {
@@ -55,14 +83,87 @@ class _AdditionalDataScreenState extends State<AdditionalDataScreen> {
     setState(() => birthDateFocused = false);
   }
 
+  Future<void> _submit() async {
+    if (firstNameController.text.isEmpty ||
+        lastNameController.text.isEmpty ||
+        birthDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("يرجى إدخال جميع البيانات المطلوبة")),
+      );
+      return;
+    }
+
+    setState(() => isLoading = true);
+
+    try {
+      final deviceId = generateDeviceId();
+
+      final response = await http.post(
+        Uri.parse("${ApiConstants.baseUrl}/api/auth/register"),
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: jsonEncode({
+          "phone_number": widget.phoneNumber,
+          "username": widget.username,
+          "password": widget.password,
+          //"otp": widget.otpCode,
+          "first_name": firstNameController.text.trim(),
+          "last_name": lastNameController.text.trim(),
+          "birthdate": birthDate!.toIso8601String(),
+          "device_id": deviceId,
+          "id_photo": "flkdbkl",
+          "personal_photo": "kvmfdvvmkdfl",
+          "include_token": true,
+        }),
+      );
+
+      setState(() => isLoading = false);
+
+      // debugPrint("Status: ${response.statusCode}");
+      // debugPrint("Headers: ${response.headers}");
+      //debugPrint("Body: ${response.body}");
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final data = jsonDecode(response.body);
+        final token = data['token'];
+
+        // حفظ التوكن في التخزين الآمن
+        await AuthService.saveToken(token);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("تم إنشاء الحساب بنجاح ✅")),
+        );
+
+        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "خطأ: ${response.statusCode}\n${response.body}",
+              maxLines: 6,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      setState(() => isLoading = false);
+      debugPrint("فشل الاتصال بالسيرفر: $e");
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("فشل الاتصال بالسيرفر: $e")));
+    }
+  }
+
   Widget _buildTextField({
-    required String title, // النص الصريح فوق الحقل
+    required String title,
     required String hint,
     required TextEditingController controller,
     required FocusNode focusNode,
     TextInputType keyboardType = TextInputType.text,
   }) {
-    final isFocused = focusNode.hasFocus;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -176,11 +277,11 @@ class _AdditionalDataScreenState extends State<AdditionalDataScreen> {
             children: [
               _buildTextField(
                 title: 'الاسم الأول',
-                hint: 'أدخل اسمك ',
+                hint: 'أدخل اسمك',
                 controller: firstNameController,
                 focusNode: firstNameFocus,
               ),
-              const SizedBox(height: AppSpacing.xl), // مسافة أكبر بين الحقول
+              const SizedBox(height: AppSpacing.xl),
               _buildTextField(
                 title: 'الكنية',
                 hint: 'أدخل كنيتك',
@@ -191,9 +292,7 @@ class _AdditionalDataScreenState extends State<AdditionalDataScreen> {
               _buildDateField(),
               const Spacer(),
               ElevatedButton(
-                onPressed: () {
-                  // إنهاء التسجيل
-                },
+                onPressed: isLoading ? null : _submit,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   foregroundColor: Colors.white,
@@ -202,7 +301,9 @@ class _AdditionalDataScreenState extends State<AdditionalDataScreen> {
                     borderRadius: BorderRadius.circular(AppSizes.borderRadius),
                   ),
                 ),
-                child: const Text('إنهاء التسجيل'),
+                child: isLoading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : const Text('إنهاء التسجيل'),
               ),
             ],
           ),

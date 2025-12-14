@@ -29,7 +29,12 @@
 // }
 
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:main_project/constants/class.dart';
+=======
+import 'package:main_project/core/constants/class.dart';
+import 'package:main_project/screens/Home.dart';
+>>>>>>> Branchammar
 
 class MyBooking with ChangeNotifier {
   List<Item> bookedItems = [];
