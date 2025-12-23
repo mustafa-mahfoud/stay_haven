@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:main_project/core/constants/class.dart';
-import '../core/constants/colors.dart';
 import 'package:main_project/provider/mybooking.dart';
 import 'package:main_project/screens/Detalis.dart';
-import 'package:date_picker_plus/date_picker_plus.dart';
-import 'package:main_project/screens/favorite.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
@@ -18,32 +15,37 @@ class _MyWidgetState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final classInstancee = Provider.of<MyBooking>(context);
+
+    final apartments = classInstancee.bookedItems;
     return Scaffold(
-        drawer: Drawer(
+      drawer: Drawer(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               children: [
-                const UserAccountsDrawerHeader(
-                  decoration: BoxDecoration(
+                UserAccountsDrawerHeader(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage("assets/images/day2.png"),
                       fit: BoxFit.cover,
                     ),
                   ),
                   accountName: Text(
-                    "mustafa mahfoud",
+                    "${classInstancee.profileFirsttName}${classInstancee.profileLastName}",
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                  accountEmail: const Text(
+                    "+963 565886",
                     style: TextStyle(color: Colors.black),
                   ),
-                  accountEmail: Text(
-                    "+963 954305289",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  currentAccountPictureSize: Size.square(80),
+                  currentAccountPictureSize: const Size.square(80),
                   currentAccountPicture: CircleAvatar(
                     radius: 55,
-                    backgroundImage: AssetImage("assets/images/mustfa.jpg"),
+                   //backgroundImage:AssetImage(""),
+                    backgroundImage: classInstancee.profileImage == null
+                        ? const AssetImage("assets/images/Profile_avatar_placeholder_large.png")
+                        : FileImage(classInstancee.profileImage!),
                   ),
                 ),
                 ListTile(
@@ -57,8 +59,19 @@ class _MyWidgetState extends State<Home> {
                   },
                 ),
                 ListTile(
-                  title: const Text("My products"),
-                  leading: const Icon(Icons.add_shopping_cart),
+                  // trailing:  IconButton(onPressed: (){},
+                  //  icon: Icon(Icons.arrow_forward_ios_rounded,color: Colors.grey[600],)),
+                  title: const Text("Settings"),
+                  leading: const Icon(Icons.settings),
+                  onTap: () {
+                    setState(() {
+                      //isDarkMode = !isDarkMode;
+                    });
+                  },
+                ),
+                ListTile(
+                  title: const Text("My Booking"),
+                  leading: const Icon(Icons.event_note),
                   onTap: () {
                     // Navigator.push(
                     //   context,
@@ -69,12 +82,12 @@ class _MyWidgetState extends State<Home> {
                   },
                 ),
                 ListTile(
-                  title: const Text("About"),
-                  leading: const Icon(Icons.help_center),
+                  title: const Text("my profile"),
+                  leading: const Icon(Icons.person),
                   onTap: () {},
                 ),
                 ListTile(
-                  title: const Text("my profile"),
+                  title: const Text("About"),
                   leading: const Icon(Icons.help_center),
                   onTap: () {
                     //       Navigator.pushReplacement(
@@ -85,13 +98,16 @@ class _MyWidgetState extends State<Home> {
                   },
                 ),
                 Divider(
-            thickness: 1,   // سمك الخط
-               color: Colors.grey,
-              ),
+                  thickness: 1, // سمك الخط
+                  color: Colors.grey,
+                ),
 
                 ListTile(
-                  title: const Text("Logout",style: TextStyle(color: Colors.red),),
-                  leading: const Icon(Icons.exit_to_app,color: Colors.red,),
+                  title: const Text(
+                    "Logout",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                  leading: const Icon(Icons.exit_to_app, color: Colors.red),
                   onTap: () async {
                     showDialog(
                       context: context,
@@ -156,11 +172,11 @@ class _MyWidgetState extends State<Home> {
           ],
         ),
       ),
-        appBar: AppBar(
+      appBar: AppBar(
         backgroundColor: Colors.blue[700],
         title: Text(
           "Available bookings",
-          style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
 
         //builder: ((context, classInstancee, child) {
@@ -178,7 +194,7 @@ class _MyWidgetState extends State<Home> {
           ),
         ],
       ),
-        body: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Padding(
@@ -195,7 +211,7 @@ class _MyWidgetState extends State<Home> {
               ),
             ),
             SizedBox(
-              height: 600,
+              height: 575,
               child: ListView.builder(
                 padding: const EdgeInsets.all(8),
                 itemCount: items.length,
@@ -353,9 +369,6 @@ class _MyWidgetState extends State<Home> {
           ],
         ),
       ),
-    
-    
-    
     );
   }
 }

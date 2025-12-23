@@ -1,43 +1,16 @@
-// import 'package:flutter/material.dart';
-// import 'package:main_project/constants/class.dart';
-// import 'package:main_project/screens/Home.dart';
-
-// class mybooking with ChangeNotifier {
-
-//   List bookeditems = [];
-//   String valuestartdate = "";
-//   String valuefinaldate = "";
-
-//   addbook( Item   book) {
-//     bookeditems.add(book);
-//     notifyListeners();
-//   }
-
-//   removebook( Item  book) {
-//     bookeditems.remove(book);
-//     notifyListeners();
-//   }
-//     void setTextstartdate(String newValue) {
-//     valuestartdate = newValue;
-//     notifyListeners();
-//   }
-//       void setTextfinaldate(String newValue) {
-//     valuefinaldate = newValue;
-//     notifyListeners();
-//   }
-
-// }
+import 'dart:io';
 
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'package:main_project/constants/class.dart';
-=======
 import 'package:main_project/core/constants/class.dart';
 import 'package:main_project/screens/Home.dart';
->>>>>>> Branchammar
 
 class MyBooking with ChangeNotifier {
   List<Item> bookedItems = [];
+    File? profileImage;
+    String profileFirsttName = "";
+
+    String profileLastName = "";
+
 
   void addBook(Item book) {
     bookedItems.add(book);
@@ -62,10 +35,10 @@ class MyBooking with ChangeNotifier {
   }
 
   void editupdateBooking({
-  required  Item item,
-  required  String startDate,
-  required  String finalDate,
-  required  int peopleCount,
+    required Item item,
+    required String startDate,
+    required String finalDate,
+    required int peopleCount,
   }) {
     item.startDate = startDate;
     item.finalDate = finalDate;
@@ -73,4 +46,34 @@ class MyBooking with ChangeNotifier {
 
     notifyListeners();
   }
+
+  List<Item> bookfavorite = [];
+  void addBookfavorite(Item book) {
+    bookfavorite.add(book);
+    notifyListeners();
+  }
+
+  void removeBookfavorite(Item book) {
+    bookfavorite.remove(book);
+    notifyListeners();
+  }
+
+  
+
+  void setImage(File image) {
+    profileImage = image;
+    notifyListeners();
+  }
+    
+
+  void setFirstName(String name) {
+    profileFirsttName = name;
+    notifyListeners();
+  }
+
+    void setLastName(String name) {
+    profileLastName = name;
+    notifyListeners();
+  }
+
 }

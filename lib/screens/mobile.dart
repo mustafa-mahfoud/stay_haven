@@ -179,7 +179,7 @@ void dispose() {
           MyBookings(),
           Addbook(),
           favorite(),
-          Profile(),
+          profile(),
           
           
         ],

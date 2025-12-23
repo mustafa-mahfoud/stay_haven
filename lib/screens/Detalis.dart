@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:main_project/constants/class.dart';
-import 'package:main_project/constants/colors.dart';
+
+import 'package:main_project/core/constants/class.dart';
+import 'package:main_project/core/constants/colors.dart';
+import 'package:main_project/core/constants/full_image.dart.dart';
 import 'package:main_project/provider/mybooking.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +18,7 @@ class _DetalisState extends State<Detalis> {
   final TextEditingController startdateController = TextEditingController();
   final TextEditingController finaldateController = TextEditingController();
   final TextEditingController numberController = TextEditingController();
-
+  
   bool aa = true;
 
   @override
@@ -139,11 +141,12 @@ class _DetalisState extends State<Detalis> {
                                 ElevatedButton(
                                   onPressed: () {
                                     classInstancee.updateBookDates(
-                                    
-                                       book: widget.floar, 
-                                       startDate:startdateController.text,
-                                       finalDate:   finaldateController.text,
-                                       peopleCount: int.tryParse(numberController.text) ?? 0,
+                                      book: widget.floar,
+                                      startDate: startdateController.text,
+                                      finalDate: finaldateController.text,
+                                      peopleCount:
+                                          int.tryParse(numberController.text) ??
+                                          0,
                                     );
                                     classInstancee.addBook(widget.floar);
                                     Navigator.pop(context);
@@ -393,6 +396,40 @@ class _DetalisState extends State<Detalis> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(Icons.arrow_back, color: Colors.white),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 40,
+            right: 16,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  widget.floar.isFavorite=!widget.floar.isFavorite;
+              
+                });
+              if (widget.floar.isFavorite==true) {
+                classInstancee.addBookfavorite(widget.floar);
+                
+              } else {
+                classInstancee.removeBookfavorite(widget.floar);
+              }
+                
+                
+              },
+              child: Container(
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.blue.withOpacity(0.7),
+                  borderRadius: BorderRadius.circular(8),
+
+                  ///  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  //Icons.favorite_border,
+                  widget.floar.isFavorite ? Icons.favorite : Icons.favorite_border,
+                  color:widget.floar.isFavorite? Colors.red: Colors.white  ,
+                ),
               ),
             ),
           ),

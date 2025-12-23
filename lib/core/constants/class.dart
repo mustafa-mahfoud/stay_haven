@@ -2,21 +2,7 @@
 
 
 
-// class Item {
-//   String imgPath;
-//   double price;
-//   String Description;
-//   String location;
-//   String title;
 
-//   Item({
-//     required this.title,
-//     required this.imgPath,
-//     required this.price,  
-//     required this.Description,
-//     required this.location,
-//   });
-// }
 class Item {
   String title;
   String imgPath;
@@ -26,8 +12,12 @@ class Item {
   String? startDate;
   String? finalDate;
   int? peopleCount;
-
+  bool isFavorite;
+  String? imgPathprofile;
   Item({
+    
+    this.isFavorite=false,
+     this.imgPathprofile,
     required this.title,
     required this.imgPath,
     required this.price,
