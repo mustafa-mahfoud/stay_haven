@@ -1,23 +1,38 @@
+
+
+
+
+
 class Item {
+  String title;
   String imgPath;
   double price;
-  // ignore: non_constant_identifier_names
   String Description;
   String location;
-  String title;
-
-  // ignore: non_constant_identifier_names
+  String? startDate;
+  String? finalDate;
+  int? peopleCount;
+  bool isFavorite;
+  String? imgPathprofile;
   Item({
+    
+    this.isFavorite=false,
+     this.imgPathprofile,
     required this.title,
     required this.imgPath,
     required this.price,
-    // ignore: non_constant_identifier_names
     required this.Description,
     required this.location,
+         this.startDate,
+        this.finalDate,
+        this.peopleCount,
   });
 }
+
   final List<Item> items = [
+    
     Item(
+    
       title: "Sunrise Cozy Home",
       location: "Syria, Damascus",
       Description:
@@ -26,6 +41,7 @@ class Item {
       imgPath: "assets/images/pexels-binyaminmellish-1396132.jpg",
     ),
     Item(
+    
       title: " Lakeview Apartment",
       location: "Syria, Aleppo",
       Description:
@@ -34,21 +50,24 @@ class Item {
       imgPath: "assets/images/pexels-binyaminmellish-106399.jpg",
     ),
     Item(
+    
       title: "White Garden Residence",
       location: "Syria, Homs",
       Description:
           "A comfortable apartment in a peaceful neighborhood. It features wide rooms",
       price: 10.99,
-      imgPath: "assets/images/pexels-expect-best-79873-323780.jpg",
+      imgPath: "assets/images/pexels-expect-best-79873-323780.jpg", 
     ),
     Item(
+    
       title: "Hillside Family House",
       location: "Syria, Latakia",
       Description: "A well-lit apartment with a nice layout and good space",
       price: 09.99,
-      imgPath: "assets/images/pexels-pixabay-259588.jpg",
+      imgPath: "assets/images/pexels-pixabay-259588.jpg", 
     ),
     Item(
+      
       title: "Bluestone Modern Villa",
       location: "Syria, idlib",
       Description:
@@ -57,3 +76,5 @@ class Item {
       imgPath: "assets/images/pexels-pixabay-277667.jpg",
     ),
   ];
+
+  

@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
-import '../constants/colors.dart';
-import '../constants/size.dart';
+import '../core/constants/colors.dart';
+import '../core/constants/size.dart';
 import 'AdditionalDataScreen.dart';
 
 class VerificationScreen extends StatefulWidget {
-  const VerificationScreen({super.key});
+  final String phoneNumber;
+  final String username;
+  final String password;
+
+  const VerificationScreen({
+    super.key,
+    required this.phoneNumber,
+    required this.username,
+    required this.password,
+  });
 
   @override
   State<VerificationScreen> createState() => _VerificationScreenState();
@@ -17,9 +26,19 @@ class _VerificationScreenState extends State<VerificationScreen> {
   );
 
   void _complete() {
+    // جمع رمز التحقق من مربعات الإدخال
+    String otpCode = _controllers.map((c) => c.text).join();
+
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (_) => const AdditionalDataScreen()),
+      MaterialPageRoute(
+        builder: (_) => AdditionalDataScreen(
+          phoneNumber: widget.phoneNumber,
+          username: widget.username,
+          password: widget.password,
+          otpCode: otpCode,
+        ),
+      ),
     );
   }
 
@@ -42,9 +61,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
         ),
         onChanged: (v) {
           if (v.isNotEmpty && index < _controllers.length - 1) {
-            FocusScope.of(
-              context,
-            ).nextFocus(); // ينتقل للمربع التالي يسارًا (لأنها LTR)
+            FocusScope.of(context).nextFocus();
           }
           if (_controllers.every((c) => c.text.isNotEmpty)) {
             _complete();
@@ -57,7 +74,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.ltr, // ✅ إلغاء RTL لهذه الواجهة فقط
+      textDirection: TextDirection.ltr,
       child: Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
