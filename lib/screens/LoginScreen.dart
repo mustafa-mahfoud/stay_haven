@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _login() async {
     if (phoneNumber.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("يرجى إدخال رقم الهاتف وكلمة المرور")),
+         SnackBar(content: Text(AppText.jj(context))),
       );
       return;
     }
@@ -144,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("تم تسجيل الدخول بنجاح ✅")),
+           SnackBar(content: Text(AppText.sss(context))),
         );
 
         // 4. الانتقال بعد التأكد من اكتمال كل شيء
@@ -156,15 +156,15 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() => isLoading = false);
         if (response.statusCode == 401) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("كلمة المرور غير صحيحة ❌")),
+             SnackBar(content: Text(AppText.w(context))),
           );
         } else if (response.statusCode == 400 || response.statusCode == 404) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("رقم الهاتف غير موجود ❌")),
+             SnackBar(content: Text(AppText.ww(context))),
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("خطأ: ${response.statusCode}")),
+            SnackBar(content: Text("${AppText.error(context)}: ${response.statusCode}")),
           );
         }
       }
@@ -172,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() => isLoading = false);
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text("فشل الاتصال بالسيرفر: $e")));
+      ).showSnackBar(SnackBar(content: Text("${AppText.kk(context)}: $e")));
     }
   }
 

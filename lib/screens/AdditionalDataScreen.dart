@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:math';
 import 'package:image_picker/image_picker.dart';
+import 'package:main_project/core/constants/apptext.dart';
 import 'package:provider/provider.dart';
 
 import '../core/constants/colors.dart';
@@ -122,7 +123,7 @@ class _AdditionalDataScreenState extends State<AdditionalDataScreen> {
         lastNameController.text.isEmpty ||
         birthDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("يرجى إدخال جميع البيانات المطلوبة")),
+         SnackBar(content: Text(AppText.ff(context))),
       );
       return;
     }
@@ -209,7 +210,7 @@ class _AdditionalDataScreenState extends State<AdditionalDataScreen> {
         userProvider.printData();
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("تم إنشاء الحساب بنجاح ✅")),
+           SnackBar(content: Text(AppText.ss(context))),
         );
 
         Navigator.pushReplacement(
@@ -220,7 +221,7 @@ class _AdditionalDataScreenState extends State<AdditionalDataScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              "خطأ: ${response.statusCode}\n${response.body}",
+               "${AppText.error(context)}: ${response.statusCode}\n${response.body}",
               maxLines: 6,
               overflow: TextOverflow.ellipsis,
             ),
@@ -229,10 +230,10 @@ class _AdditionalDataScreenState extends State<AdditionalDataScreen> {
       }
     } catch (e) {
       setState(() => isLoading = false);
-      debugPrint("❌ خطأ أثناء معالجة البيانات: $e");
+      debugPrint("${AppText.tt(context)}: $e");
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text("فشل الاتصال بالسيرفر: $e")));
+      ).showSnackBar(SnackBar(content: Text("${AppText.kk(context)} $e")));
     }
   }
 
@@ -290,7 +291,7 @@ class _AdditionalDataScreenState extends State<AdditionalDataScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'تاريخ الميلاد',
+          AppText.date(context),
           style: TextStyle(
             color: AppColors.textPrimary,
             fontSize: 16,
@@ -327,7 +328,7 @@ class _AdditionalDataScreenState extends State<AdditionalDataScreen> {
                 Text(
                   birthDate != null
                       ? '${birthDate!.year}-${birthDate!.month.toString().padLeft(2, '0')}-${birthDate!.day.toString().padLeft(2, '0')}'
-                      : 'اختر تاريخ ميلادك',
+                      : AppText.selectdate(context),
                   style: TextStyle(color: AppColors.textPrimary),
                 ),
               ],
@@ -388,7 +389,7 @@ class _AdditionalDataScreenState extends State<AdditionalDataScreen> {
                         ),
                         const SizedBox(height: AppSpacing.xs),
                         Text(
-                          isIdPhoto ? 'أضف صورة الهوية' : 'أضف صورتك الشخصية',
+                          isIdPhoto ? AppText.addimg(context) : AppText.addpersonimg(context),
                           style: TextStyle(
                             color: AppColors.textSecondary,
                             fontSize: 12,
@@ -405,60 +406,57 @@ class _AdditionalDataScreenState extends State<AdditionalDataScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: AppColors.background,
-        appBar: AppBar(
-          title: const Text('إكمال البيانات'),
-          backgroundColor: AppColors.primary,
-          foregroundColor: Colors.white,
-          elevation: 0,
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.lg),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _buildTextField(
-                  title: 'الاسم الأول',
-                  hint: 'أدخل اسمك',
-                  controller: firstNameController,
-                  focusNode: firstNameFocus,
-                ),
-                const SizedBox(height: AppSpacing.md),
-                _buildTextField(
-                  title: 'الكنية',
-                  hint: 'أدخل كنيتك',
-                  controller: lastNameController,
-                  focusNode: lastNameFocus,
-                ),
-                const SizedBox(height: AppSpacing.md),
-                _buildDateField(),
-                const SizedBox(height: AppSpacing.md),
-                _buildImageField(title: 'صورة الهوية', isIdPhoto: true),
-                const SizedBox(height: AppSpacing.md),
-                _buildImageField(title: 'الصورة الشخصية', isIdPhoto: false),
-                const SizedBox(height: AppSpacing.xl),
-                ElevatedButton(
-                  onPressed: isLoading ? null : _submit,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
-                    minimumSize: Size(double.infinity, AppSizes.buttonHeight),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        AppSizes.borderRadius,
-                      ),
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      appBar: AppBar(
+        title:  Text(AppText.completedata(context)),
+        backgroundColor: AppColors.primary,
+        foregroundColor: Colors.white,
+        elevation: 0,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _buildTextField(
+                title: AppText.firstname(context),
+                hint: AppText.enterfirstname(context),
+                controller: firstNameController,
+                focusNode: firstNameFocus,
+              ),
+              const SizedBox(height: AppSpacing.md),
+              _buildTextField(
+                title: AppText.lastname(context),
+                hint: AppText.enterlastname(context),
+                controller: lastNameController,
+                focusNode: lastNameFocus,
+              ),
+              const SizedBox(height: AppSpacing.md),
+              _buildDateField(),
+              const SizedBox(height: AppSpacing.md),
+              _buildImageField(title: AppText.img(context), isIdPhoto: true),
+              const SizedBox(height: AppSpacing.md),
+              _buildImageField(title: AppText.personimg(context), isIdPhoto: false),
+              const SizedBox(height: AppSpacing.xl),
+              ElevatedButton(
+                onPressed: isLoading ? null : _submit,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                  minimumSize: Size(double.infinity, AppSizes.buttonHeight),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      AppSizes.borderRadius,
                     ),
                   ),
-                  child: isLoading
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text('إنهاء التسجيل'),
                 ),
-              ],
-            ),
+                child: isLoading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    :  Text(AppText.complete(context)),
+              ),
+            ],
           ),
         ),
       ),

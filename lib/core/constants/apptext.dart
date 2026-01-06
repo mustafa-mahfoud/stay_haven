@@ -27,6 +27,73 @@ class AppText {
                static String dd(context) =>
       _isArabic(context) ? "تأكيد" : "verification";
 
+                     static String firstname(context) =>
+      _isArabic(context) ? 'الاسم الأول' : "First Name";
+
+                     static String enterfirstname(context) =>
+      _isArabic(context) ? 'أدخل اسمك الاول' : "Enter First Name";
+
+                       static String lastname(context) =>
+      _isArabic(context) ? 'الاسم الثاني' : "Last Name";
+
+                         static String enterlastname(context) =>
+      _isArabic(context) ? 'أدخل اسمك الثاني' : "Enter Last Name";
+
+                           static String img(context) =>
+      _isArabic(context) ? 'صورة الهوية' : "ID photo";
+
+                             static String personimg(context) =>
+      _isArabic(context) ? 'الصورة الشخصية' : "Personal photo";
+
+                               static String complete(context) =>
+      _isArabic(context) ? 'إنهاء التسجيل' : "Complete registration";
+
+      
+                               static String completedata(context) =>
+      _isArabic(context) ? 'إكمال البيانات' : "Complete the data";
+
+                                 static String date(context) =>
+      _isArabic(context) ? 'تاريخ الميلاد' : "date of birth";
+
+                                       static String selectdate(context) =>
+      _isArabic(context) ? 'اختر تاريخ ميلادك' : "Choose your date of birth";
+
+                               static String addimg(context) =>
+      _isArabic(context) ? 'أضف صورة الهوية' : "Add ID photo";
+
+      
+                               static String addpersonimg(context) =>
+      _isArabic(context) ? 'أضف صورتك الشخصية': "Add your profile picture";
+
+                                     static String ff(context) =>
+      _isArabic(context) ? "يرجى إدخال جميع البيانات المطلوبة": "Please enter all required information.";
+
+
+                               static String ss(context) =>
+      _isArabic(context) ?"تم إنشاء الحساب بنجاح ✅": "Account created successfully ✅";
+
+                                     static String error(context) =>
+      _isArabic(context) ?"خطأ": "Error";
+
+                                     static String tt(context) =>
+      _isArabic(context) ?"❌ خطأ أثناء معالجة البيانات": "❌ Error during data processing";
+
+
+                                    static String kk(context) =>
+      _isArabic(context) ?"فشل الاتصال بالسيرفر": "Failed to connect to the server";
+
+                                  static String jj(context) =>
+      _isArabic(context) ?"يرجى إدخال رقم الهاتف وكلمة المرور": "Please enter your phone number and password";
+
+                            static String sss(context) =>
+      _isArabic(context) ?"تم إنشاء الدخول بنجاح ✅": "Login created successfully ✅";
+
+                            static String w(context) =>
+      _isArabic(context) ?"كلمة المرور غير صحيحة ❌": "Incorrect password ❌";
+
+                                  static String ww(context) =>
+      _isArabic(context) ?"رقم الهاتف غير موجود ❌": "Phone number not found ❌";
+
 
 
 
@@ -84,13 +151,13 @@ class AppText {
       : "Please enter your username";
 
   static String f(context) =>
-      _isArabic(context) ? " أدخل اسم المستخدم " : "Enter  username";
+      _isArabic(context) ? " أدخل اسم المستخدم " : "Enter username";
 
   static String g(context) =>
-      _isArabic(context) ? " أدخل كلمة المرور " : "Enter  Password";
+      _isArabic(context) ? " أدخل كلمة المرور " : "Enter Password";
 
         static String h(context) =>
-      _isArabic(context) ? "يرجى إدخال كلمة المرور ": " Please Enter  Password";
+      _isArabic(context) ? "يرجى إدخال كلمة المرور ": " Please Enter Password";
 
           static String k(context) =>
       _isArabic(context) ? "التالي": "Next";
