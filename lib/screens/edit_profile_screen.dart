@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:main_project/core/constants/apptext.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
-
 import '../core/constants/colors.dart';
 import '../core/constants/size.dart';
 import '../core/constants/UserProvider.dart';
@@ -81,9 +81,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         backgroundColor: AppColors.primary,
         elevation: 0,
         centerTitle: true,
-        title: const Text(
-          "Edit Profile",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        title:  Text(
+          AppText.editprofile(context),
+          style: TextStyle(color: Colors.white,fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ),
 
@@ -126,17 +126,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
             const SizedBox(height: AppSizes.xl),
 
-            _inputField("First Name", firstNameController),
+            _inputField(AppText.firstname(context), firstNameController),
             const SizedBox(height: AppSizes.md),
 
-            _inputField("Last Name", lastNameController),
+            _inputField(AppText.lastname(context), lastNameController),
             const SizedBox(height: AppSizes.md),
 
-            _inputField("Username", usernameController),
+            _inputField(AppText.c(context), usernameController),
             const SizedBox(height: AppSizes.md),
 
             _inputField(
-              "Phone Number",
+              AppText.phonemumber(context),
               phoneController,
               keyboard: TextInputType.phone,
             ),
@@ -155,8 +155,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 onPressed: () {
                   _saveChanges(userProvider);
                 },
-                child: const Text(
-                  "SAVE CHANGES",
+                child:  Text(
+                  AppText.save(context),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 17,
@@ -178,16 +178,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       child: Column(
         children: [
           ListTile(
-            leading: const Icon(Icons.camera_alt, color: AppColors.primaryDark),
-            title: const Text("Take a photo"),
+            leading: const Icon(Icons.camera_alt, color: AppColors.primary),
+            title:  Text(AppText.takephoto(context)),
             onTap: () {
               pickImage(ImageSource.camera);
               Navigator.pop(context);
             },
           ),
           ListTile(
-            leading: const Icon(Icons.photo, color: AppColors.primaryDark),
-            title: const Text("Choose from gallery"),
+            leading: const Icon(Icons.photo, color: AppColors.primary),
+            title:  Text(AppText.takegalary(context)),
             onTap: () {
               pickImage(ImageSource.gallery);
               Navigator.pop(context);
@@ -225,7 +225,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       if (token == null || token.isEmpty) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text("لا يوجد توكن محفوظ ❌")));
+        ).showSnackBar( SnackBar(content: Text(AppText.vv(context))));
         return;
       }
 
@@ -285,19 +285,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         );
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("تم تحديث البيانات بنجاح ✅")),
+           SnackBar(content: Text(AppText.tm(context))),
         );
 
         Navigator.pop(context);
       } else {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text("خطأ: ${response.body}")));
+        ).showSnackBar(SnackBar(content: Text("${AppText.error(context)}: ${response.body}")));
       }
     } catch (e) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text("فشل تحديث البيانات: $e")));
+      ).showSnackBar(SnackBar(content: Text("${AppText.tms(context)}: $e")));
     }
   }
 }

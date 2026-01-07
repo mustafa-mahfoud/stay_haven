@@ -144,7 +144,7 @@ class AppText {
       ? "يرجى إدخال رقم الهاتف"
       : "Please enter your phone number";
 
-  static String c(context) => _isArabic(context) ? "اسم المستخدم" : "user name";
+  static String c(context) => _isArabic(context) ? "اسم المستخدم" : "UserName";
 
   static String e(context) => _isArabic(context)
       ? "يرجى إدخال اسم المستخدم"
@@ -174,6 +174,30 @@ class AppText {
 
             static String favorites(context) =>
       _isArabic(context) ? "لا توجد مفضلات حتى الآن": "No favorites yet";
+    
+             static String editprofile(context) =>
+      _isArabic(context) ? "تعديل الملف الشخصي": "Edit Profile";
+
+               static String save(context) =>
+      _isArabic(context) ? "حفظ التغيرات": "SAVE CHANGES";
+
+                 static String vv(context) =>
+      _isArabic(context) ? "لا يوجد توكن محفوظ ❌": "No tokens saved ❌";
+
+      
+                 static String tm(context) =>
+      _isArabic(context) ? "تم تحديث البيانات بنجاح ✅": "Data updated successfully ✅";
+
+                   static String tms(context) =>
+      _isArabic(context) ? "فشل تحديث البيانات ❌": "Data update failed ❌";
+
+                         static String takephoto(context) =>
+      _isArabic(context) ?"التقط صورة" : "Take a photo";
+
+                         static String takegalary(context) =>
+      _isArabic(context) ?"اختر من المعرض" : "Choose from gallery";
+
+
 
 
 

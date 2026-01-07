@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
               : ThemeMode.light,
           debugShowCheckedModeBanner: false,
           title: 'Housely',
-          home: const SplashScreen(),
+          home: const Mobile(),
         );
       },
     );
